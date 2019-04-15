@@ -1,0 +1,5 @@
+package io.caoxx123.mapper;
+
+public interface CategoryMapper {
+
+}

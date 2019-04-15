@@ -20,5 +20,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     <mappers>
         <mapper resource="io/caoxx123/pojo/Category.xml"/>
         <mapper resource="io/caoxx123/pojo/Product.xml"/>
+        <mapper class="io.caoxx123.mapper.CategoryMapper"/>
     </mappers>
 </configuration>

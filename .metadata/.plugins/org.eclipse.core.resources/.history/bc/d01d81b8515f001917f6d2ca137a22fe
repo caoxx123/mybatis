@@ -1,0 +1,55 @@
+package io.caoxx123.test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import io.caoxx123.mapper.CategoryMapper;
+import io.caoxx123.pojo.Category;
+import io.caoxx123.pojo.Product;
+
+public class MybatisTestAnnotations {
+	public static void main(String[] args) throws IOException {
+		String resource = "mybatis-config.xml";
+		listAll(getCategoryList(getCateMapper(resource)));
+		Category category=mew category();
+		category.setName("hahahhah ");
+		add(getCateMapper(resource),Category, );
+	}
+
+	private static CategoryMapper getCateMapper(String resource) throws IOException {
+		InputStream inputStream=Resources.getResourceAsStream(resource);
+		SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession sqlSession=sqlSessionFactory.openSession();
+		CategoryMapper categoryMapper=sqlSession.getMapper(CategoryMapper.class);
+		return categoryMapper;
+	}
+	
+	public static void add(CategoryMapper categoryMapper,Category category) {
+		categoryMapper.add(category);
+	}
+	public static void update(CategoryMapper categoryMapper,Category category) {
+		categoryMapper.update(category);
+	}
+	public static void delete(CategoryMapper categoryMapper,Category category) {
+		categoryMapper.delete(category);
+	}
+	public static Category getCategory(CategoryMapper categoryMapper,int id) {
+		return categoryMapper.getCategory(id);
+	}
+	public static List<Category> getCategoryList(CategoryMapper categoryMapper){
+		return categoryMapper.list();
+	}
+	public static void listAll(List<Category> list) {
+		for (Object object : list) {
+			object.toString();
+		}
+	}
+}

@@ -1,0 +1,13 @@
+package io.caoxx123.mapper;
+
+import io.caoxx123.pojo.Category;
+
+public interface CategoryMapper {
+	public int add(Category category);
+
+	public void delete(Category category);
+	
+	public int update(Category  category) ;
+	
+	
+}

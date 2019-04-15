@@ -1,0 +1,7 @@
+package io.caoxx123.test;
+
+public class MybatisTest0 {
+	public static void main(String[] args) {
+		String resource="mybatis-config.xml";
+	}
+}

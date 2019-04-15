@@ -1,0 +1,51 @@
+package io.caoxx123.test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import io.caoxx123.pojo.Category;
+import io.caoxx123.pojo.Product;
+
+public class MybatisTest0 {
+	public static void main(String[] args) throws IOException {
+		String resource = "mybatis-config.xml";
+		InputStream inputStream = Resources.getResourceAsStream(resource);
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession session = sqlSessionFactory.openSession();
+		
+		System.out.println("执行新增方法前");
+//		listAll(session);
+		Category category = new Category();
+		category.setId(7);
+		category.setName("update方法修改的");
+		//新增
+//		category.setName("通过新增方法添加的category");
+//		session.insert("addCategory",category);	
+//		session.commit();
+//		session.close();
+		//删除
+//		category.setId(6);
+//		session.delete("deleteCategory",category);
+		session.update("updateCategory",category);
+		session.commit();
+		System.out.println("执行新增方法后");
+		//根据id查找
+		category=session.selectOne("getCategory",7);
+//		System.out.println(category.getName());
+
+//		listAll(session);
+		
+	}
+	private static void listAll(SqlSession session) {
+		List<Category> cs=session.selectList("listCategory");
+		for (Category category : cs) {
+			System.out.println(category.getName());
+		}
+	}
+}

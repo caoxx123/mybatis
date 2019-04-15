@@ -1,0 +1,95 @@
+package io.caoxx123.test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import io.caoxx123.pojo.Category;
+import io.caoxx123.pojo.Product;
+
+public class MybatisTest0 {
+	public static void main(String[] args) throws IOException {
+		String resource = "mybatis-config.xml";
+		System.out.println("执行新增方法前");
+//		listAll(session);
+//		Category category = new Category();
+//		category.setId(7);
+//		category.setName("update方法修改的12313");
+		//新增
+//		category.setName("通过新增方法添加的category");
+//		session.insert("addCategory",category);	
+//		session.commit();
+//		session.close();
+		//删除
+//		category.setId(6);
+//		session.delete("deleteCategory",category);
+//		session.update("updateCategory",category);
+		session.commit();
+		//模糊查询
+		List<Category> cl=session.selectList("getCategoryByName", "cat");
+		for (Category category : cl) {
+			System.out.println(category.getName());
+		}
+		System.out.println("执行新增方法后");
+//		//根据id查找
+//		category=session.selectOne("getCategory",7);
+//		System.out.println(category.getName());
+
+//		listAll(session);
+		
+	}
+	//获取sqlsession
+	private static SqlSession getSqlsession(String resource) throws IOException {
+		InputStream inputStream=Resources.getResourceAsStream(resource);
+		SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession sqlSession=sqlSessionFactory.openSession();
+		return sqlSession;
+	}
+	//遍历数据表
+	private static void listAll(SqlSession session) {
+		List<Category> cs=session.selectList("listCategory");
+		for (Category category : cs) {
+			System.out.println(category.getName());
+		}
+	}
+	//给表中增加数据对象
+	private static void addCategory(SqlSession session,Category category) {
+		if(category.getName()!=null) {
+			session.insert("addCategory",category);
+			session.commit();
+			session.close();
+		}else {
+			System.out.println("分类名称为空，请检查");
+		}
+	}
+	//删除方法
+	private static void deleteCategory(SqlSession sqlSession,Category category) {
+		if(category.getId()==0) {
+			System.out.println("ID错误删除失败");
+		}else {
+			sqlSession.delete("deleteCategory",category);
+		}
+	}
+	//修改方法
+	private static void updateCategory(SqlSession sqlSession,Category category) {
+		if(category.getId()==0&&category.getName()==null) {
+			System.out.println("category对象错误，请检查");
+		}else {
+			sqlSession.update("updateCategory", category);
+		}
+	}
+	private static Category getCategoryByID(SqlSession sqlSession,int id) {
+	if(id==0) {
+		System.out.println("");
+		return null;
+	}else {
+		Category category=sqlSession.selectOne("getCategory", id);
+		return category;
+	}
+	}
+}
